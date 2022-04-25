@@ -1,13 +1,10 @@
 package honux;
 
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -37,7 +34,7 @@ public class UserRepositoryTest {
         assertThat(saved.id).isNotNull();
         logger.debug("User after save: {}", saved);
 
-        saved.name = "Hoyoung Jung";
+        saved.name = "Hoyoung Kim";
 
         userRepository.save(saved);
 
