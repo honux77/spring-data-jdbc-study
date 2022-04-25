@@ -5,24 +5,26 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = SimpleJdbcConfig.class)
+@SpringBootTest
 public class UserRepositoryTest {
 
     @Autowired
-    private UserRepository userRepo;
+    private UserRepository userRepository;
 
     private Logger logger = LoggerFactory.getLogger(UserRepositoryTest.class);
 
     @Test
+    @Transactional
     public void createUserTest() {
         User user = new User();
         user.createdDate = LocalDate.now();
@@ -31,15 +33,15 @@ public class UserRepositoryTest {
 
         logger.debug("User before save: {}", user);
 
-        User saved = userRepo.save(user);
+        User saved = userRepository.save(user);
         assertThat(saved.id).isNotNull();
         logger.debug("User after save: {}", saved);
 
         saved.name = "Hoyoung Jung";
 
-        userRepo.save(saved);
+        userRepository.save(saved);
 
-        Optional<User> reloaded = userRepo.findById(saved.id);
+        Optional<User> reloaded = userRepository.findById(saved.id);
 
         assertThat(reloaded).isNotEmpty();
 
